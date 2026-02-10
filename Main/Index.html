@@ -3,109 +3,92 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Study Content Generator</title>
+  <title>Study Buddy</title>
   <link rel="stylesheet" href="Style.css" />
 </head>
 <body>
 
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">SCG</div>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">SB</div>
+    <div>
+      <h1 class="title">Study Buddy</h1>
+      <p class="subtitle">Gör quiz och flashcards direkt från text eller PDF</p>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- INPUT -->
+  <section class="card">
+    <h2>Studieunderlag</h2>
+
+    <div class="row">
       <div>
-        <h1 class="title">Study Content Generator</h1>
-        <p class="subtitle">Gör quiz och flashcards av din text (endast från materialet).</p>
+        <label for="modeSelect">Skapa</label>
+        <select id="modeSelect">
+          <option value="flashcards" selected>Flashcards</option>
+          <option value="quiz">Quiz</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="countSelect">Antal</label>
+        <select id="countSelect">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="15">15</option>
+        </select>
       </div>
     </div>
-  </header>
 
-  <main class="container">
+    <label for="sourceTextInput">Text (valfritt)</label>
+    <textarea id="sourceTextInput" placeholder="Klistra in text här om du inte använder PDF..."></textarea>
 
-    <!-- INPUT -->
-    <section class="card">
-      <h2>Input</h2>
-      <p class="muted">
-        Klistra in studieunderlag (text från anteckningar/kapitel eller PDF som redan är uppläst till text).
-      </p>
+    <label for="pdfInput">PDF-fil</label>
+    <input id="pdfInput" type="file" accept=".pdf" />
 
-      <div class="row">
-        <div>
-          <label for="modeSelect">Skapa</label>
-          <select id="modeSelect">
-            <option value="flashcards" selected>Flashcards</option>
-            <option value="quiz">Quiz</option>
-          </select>
-        </div>
+    <div class="actions">
+      <button id="generateBtn" class="primary" type="button">Generera</button>
+      <button id="clearBtn" class="ghost" type="button">Rensa</button>
+    </div>
 
-        <div>
-          <label for="countSelect">Antal</label>
-          <select id="countSelect">
-            <option value="5">5</option>
-            <option value="8">8</option>
-            <option value="10" selected>10</option>
-            <option value="15">15</option>
-          </select>
-        </div>
-      </div>
+    <div id="statusBox" class="status"></div>
+  </section>
 
-      <label for="sourceTextInput">Din text</label>
-      <textarea id="sourceTextInput" placeholder="Klistra in text här..."></textarea>
+  <!-- FLASHCARDS -->
+  <section class="card" id="flashcardsCard" hidden>
+    <div class="cardHeader">
+      <h2>Flashcards</h2>
+      <button id="copyFlashcardsBtn" type="button">Kopiera</button>
+    </div>
 
-      <div class="actions">
-        <button id="generateBtn" class="primary" type="button">Generera</button>
-        <button id="demoBtn" class="ghost" type="button">Fyll demo-text</button>
-        <button id="clearBtn" class="ghost" type="button">Rensa</button>
-      </div>
+    <div id="flashcardsGrid" class="grid"></div>
+  </section>
 
-      <div id="statusBox" class="status" aria-live="polite"></div>
-    </section>
+  <!-- QUIZ -->
+  <section class="card" id="quizCard" hidden>
+    <div class="cardHeader">
+      <h2>Quiz</h2>
+      <button id="copyQuizBtn" type="button">Kopiera</button>
+    </div>
 
-    <!-- OUTPUT: FLASHCARDS -->
-    <section class="card" id="flashcardsCard" hidden>
-      <div class="cardHeader">
-        <h2>Flashcards</h2>
-        <div class="headerActions">
-          <button id="copyFlashcardsBtn" type="button">Kopiera</button>
-        </div>
-      </div>
+    <div id="quizList"></div>
+  </section>
 
-      <p class="muted small">
-        Format: Framsida (fråga/begrepp) → Baksida (kort svar, max 2–3 meningar).
-      </p>
+  <!-- EXPORT -->
+  <section class="card" id="exportCard" hidden>
+    <h2>Export</h2>
+    <textarea id="exportText" readonly></textarea>
+  </section>
 
-      <div id="flashcardsGrid" class="grid"></div>
-    </section>
+  <footer class="footer">
+    <small>Study Buddy</small>
+  </footer>
 
-    <!-- OUTPUT: QUIZ -->
-    <section class="card" id="quizCard" hidden>
-      <div class="cardHeader">
-        <h2>Quiz</h2>
-        <div class="headerActions">
-          <button id="copyQuizBtn" type="button">Kopiera</button>
-        </div>
-      </div>
+</main>
 
-      <p class="muted small">
-        Blandning av flervalsfrågor, sant/falskt och kortsvar. Rätt svar markerat.
-      </p>
-
-      <div id="quizList"></div>
-    </section>
-
-   
-    <section class="card" id="exportCard" hidden>
-      <h2>Export</h2>
-      <p class="muted">
-        Dag 2-version: kopiera texten från knappen “Kopiera”. Export till fil kan komma senare.
-      </p>
-      <textarea id="exportText" readonly></textarea>
-    </section>
-
-    <footer class="footer">
-      <small>Study Content Generator  Dag 2 prototyp</small>
-    </footer>
-
-  </main>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
