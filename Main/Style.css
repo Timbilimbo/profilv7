@@ -1,0 +1,88 @@
+/* Dag 2: enkel styling som ser okej ut men inte "klart projekt" */
+
+body{
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+main{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card{
+  background: #111c33;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+h1,h2,h3{
+  margin: 0 0 10px;
+}
+
+label{
+  display:block;
+  margin: 10px 0 6px;
+  color: #cbd5e1;
+}
+
+select, textarea{
+  width:100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #0b1220;
+  color: #e2e8f0;
+}
+
+textarea{
+  min-height: 150px;
+  resize: vertical;
+}
+
+button{
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #1f2a44;
+  color: #e2e8f0;
+  cursor:pointer;
+}
+
+button:hover{
+  background: #253252;
+}
+
+button:disabled{
+  opacity: 0.6;
+  cursor:not-allowed;
+}
+
+/* Om du har två select bredvid varandra */
+.row{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 700px){
+  .row{ grid-template-columns: 1fr 1fr; }
+}
+
+#statusBox{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px dashed rgba(255,255,255,0.18);
+  color: #94a3b8;
+}
+
+#outputCard ul{
+  margin: 8px 0 0;
+  padding-left: 18px;
+}

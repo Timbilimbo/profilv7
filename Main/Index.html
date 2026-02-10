@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="sv">
+<head>
+    <link rel="stylesheet" href="Style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyPilot</title>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <h1 id="appTitle">Study Buddy</h1>
+
+    <nav id="topNav">
+      <button id="navDashboardBtn" type="button">Dashboard</button>
+      <button id="navPlanBtn" type="button">Plan</button>
+      <button id="navCoachBtn" type="button">Coach</button>
+      <button id="navFeedbackBtn" type="button">Feedback</button>
+      <button id="navSettingsBtn" type="button">Inställningar</button>
+    </nav>
+
+    <div id="authArea">
+      <button id="loginBtn" type="button">Logga in</button>
+      <button id="logoutBtn" type="button">Logga ut</button>
+      <span id="userStatusText">Ej inloggad</span>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- DASHBOARD -->
+    <section id="dashboardSection">
+      <h2 id="dashboardTitle">Översikt</h2>
+
+      <div id="todayCard">
+        <h3 id="todayTitle">Idag</h3>
+        <p id="todaySummaryText">Här visas dagens fokus och nästa steg.</p>
+        <button id="startQuickSessionBtn" type="button">Starta snabbpass</button>
+      </div>
+
+      <div id="deadlinesCard">
+        <h3 id="deadlinesTitle">Kommande deadlines</h3>
+        <ul id="deadlinesList">
+          <!-- <li>Matte prov – 12/3</li> -->
+        </ul>
+      </div>
+
+      <div id="progressCard">
+        <h3 id="progressTitle">Progress</h3>
+        <p id="progressText">Här visas statistik (timmar, streak, mål).</p>
+      </div>
+    </section>
+
+    <!-- PLAN / DEADLINES -->
+    <section id="planSection" hidden>
+      <h2 id="planTitle">Plan & Deadlines</h2>
+
+      <form id="addTaskForm">
+        <label for="taskNameInput">Uppgift</label>
+        <input id="taskNameInput" name="taskName" type="text" placeholder="t.ex. Svenskauppsats" />
+
+        <label for="courseInput">Kurs</label>
+        <input id="courseInput" name="course" type="text" placeholder="t.ex. Svenska 2" />
+
+        <label for="deadlineInput">Deadline</label>
+        <input id="deadlineInput" name="deadline" type="date" />
+
+        <label for="difficultySelect">Svårighetsgrad</label>
+        <select id="difficultySelect" name="difficulty">
+          <option value="1">1 (lätt)</option>
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5 (svår)</option>
+        </select>
+
+        <label for="timePerWeekInput">Min tid/vecka (min)</label>
+        <input id="timePerWeekInput" name="timePerWeek" type="number" min="0" placeholder="t.ex. 180" />
+
+        <button id="addTaskBtn" type="submit">Lägg till</button>
+      </form>
+
+      <div id="tasksArea">
+        <h3 id="tasksTitle">Mina uppgifter</h3>
+        <ul id="tasksList"></ul>
+      </div>
+
+      <div id="aiPlanArea">
+        <h3 id="aiPlanTitle">AI-plan</h3>
+        <button id="generatePlanBtn" type="button">Generera plan</button>
+        <p id="planStatusText"></p>
+        <ol id="planOutputList"></ol>
+      </div>
+    </section>
+
+    <!-- COACH / STUDY SESSION -->
+    <section id="coachSection" hidden>
+      <h2 id="coachTitle">Coach</h2>
+
+      <div id="sessionSetupCard">
+        <label for="sessionTaskSelect">Välj uppgift</label>
+        <select id="sessionTaskSelect"></select>
+
+        <label for="sessionLengthSelect">Passlängd</label>
+        <select id="sessionLengthSelect">
+          <option value="25">25 min</option>
+          <option value="35">35 min</option>
+          <option value="45">45 min</option>
+        </select>
+
+        <button id="startSessionBtn" type="button">Starta pass</button>
+      </div>
+
+      <div id="sessionCard" hidden>
+        <h3 id="sessionTitle">Pågående pass</h3>
+        <p id="timerText">00:00</p>
+
+        <div id="coachStepsArea">
+          <h4 id="coachStepsTitle">Steg</h4>
+          <ol id="coachStepsList"></ol>
+        </div>
+
+        <textarea id="sessionNotesInput" placeholder="Skriv kort vad du gör / vad som är svårt..."></textarea>
+
+        <div id="sessionControls">
+          <button id="pauseSessionBtn" type="button">Pausa</button>
+          <button id="finishSessionBtn" type="button">Avsluta</button>
+        </div>
+
+        <div id="aiCheckInArea">
+          <button id="askCoachBtn" type="button">Fråga coachen</button>
+          <input id="coachQuestionInput" type="text" placeholder="t.ex. Vad ska jag göra nu?" />
+          <p id="coachAnswerText"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section id="feedbackSection" hidden>
+      <h2 id="feedbackTitle">Feedback</h2>
+
+      <label for="feedbackTypeSelect">Typ av text</label>
+      <select id="feedbackTypeSelect">
+        <option value="essay">Uppsats</option>
+        <option value="lab">Labbrapport</option>
+        <option value="presentation">Presentation</option>
+      </select>
+
+      <label for="rubricSelect">Fokus</label>
+      <select id="rubricSelect">
+        <option value="structure">Struktur</option>
+        <option value="language">Språk</option>
+        <option value="analysis">Analys/Resonemang</option>
+        <option value="sources">Källor</option>
+      </select>
+
+      <textarea id="textToReviewInput" placeholder="Klistra in din text här..."></textarea>
+
+      <button id="getFeedbackBtn" type="button">Få AI-feedback</button>
+
+      <div id="feedbackOutputArea">
+        <h3 id="feedbackOutputTitle">Resultat</h3>
+        <p id="feedbackOutputText"></p>
+        <ul id="feedbackBulletsList"></ul>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settingsSection" hidden>
+      <h2 id="settingsTitle">Inställningar</h2>
+
+      <label for="goalInput">Mål (t.ex. “E i matte”, “C i svenska”)</label>
+      <input id="goalInput" type="text" />
+
+      <label for="availableTimeInput">Tillgänglig tid per dag (min)</label>
+      <input id="availableTimeInput" type="number" min="0" placeholder="t.ex. 60" />
+
+      <button id="saveSettingsBtn" type="button">Spara</button>
+
+      <p id="settingsStatusText"></p>
+    </section>
+
+  </main>
+
+  <footer id="footer">
+    <small id="footerText">Study Buddy; prototyp</small>
+  </footer>
+
+</body>
+</html>
