@@ -1,88 +1,251 @@
-/* Dag 2: enkel styling som ser okej ut men inte "klart projekt" */
-
-body{
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #0f172a;
-  color: #e2e8f0;
+:root{
+  --bg:#0f172a;
+  --card:#111c33;
+  --text:#e2e8f0;
+  --muted:#94a3b8;
+  --line:rgba(255,255,255,0.12);
+  --field:#0b1220;
+  --btn:#1f2a44;
+  --btnHover:#253252;
+  --primary:#60a5fa;
+  --primaryText:#041226;
 }
 
-main{
-  max-width: 900px;
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar{
+  border-bottom: 1px solid var(--line);
+  padding: 14px 16px;
+}
+
+.brand{
+  max-width: 980px;
   margin: 0 auto;
-  padding: 20px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.logo{
+  width:52px;
+  height:44px;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: var(--primary);
+  color: var(--primaryText);
+  font-weight: 800;
+}
+
+.title{
+  margin:0;
+  font-size: 18px;
+}
+
+.subtitle{
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.container{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px 16px 50px;
 }
 
 .card{
-  background: #111c33;
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 14px;
   padding: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-h1,h2,h3{
-  margin: 0 0 10px;
+.cardHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
+
+.headerActions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+h2{
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.muted{
+  color: var(--muted);
+  margin-top: 0;
+  line-height: 1.35;
+}
+
+.small{ font-size: 13px; }
 
 label{
   display:block;
   margin: 10px 0 6px;
   color: #cbd5e1;
+  font-size: 13px;
 }
 
-select, textarea{
-  width:100%;
-  padding: 10px;
+input, select, textarea{
+  width: 100%;
+  padding: 10px 10px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.15);
-  background: #0b1220;
-  color: #e2e8f0;
+  background: var(--field);
+  color: var(--text);
+  outline: none;
 }
 
 textarea{
-  min-height: 150px;
+  min-height: 190px;
   resize: vertical;
+}
+
+.row{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 720px){
+  .row{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.actions{
+  margin-top: 12px;
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
 }
 
 button{
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.15);
-  background: #1f2a44;
-  color: #e2e8f0;
+  background: var(--btn);
+  color: var(--text);
   cursor:pointer;
 }
 
 button:hover{
-  background: #253252;
+  background: var(--btnHover);
 }
 
 button:disabled{
   opacity: 0.6;
-  cursor:not-allowed;
+  cursor: not-allowed;
 }
 
-/* Om du har två select bredvid varandra */
-.row{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+.primary{
+  background: var(--primary);
+  border-color: transparent;
+  color: var(--primaryText);
+  font-weight: 700;
 }
 
-@media (min-width: 700px){
-  .row{ grid-template-columns: 1fr 1fr; }
+.primary:hover{
+  filter: brightness(0.95);
 }
 
-#statusBox{
+.ghost{
+  background: transparent;
+}
+
+.status{
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
   border: 1px dashed rgba(255,255,255,0.18);
-  color: #94a3b8;
+  min-height: 18px;
+  color: var(--muted);
 }
 
-#outputCard ul{
+/* Output blocks */
+.grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 720px){
+  .grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.flashcard{
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--field);
+}
+
+.flashcard .label{
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.flashcard .front{
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.flashcard .back{
+  margin: 0;
+  color: #dbe7ff;
+}
+
+.quizItem{
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--field);
+  margin-bottom: 10px;
+}
+
+.quizItem .qTitle{
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+.quizItem .meta{
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 6px;
+}
+
+.quizItem ul{
   margin: 8px 0 0;
   padding-left: 18px;
+}
+
+.quizItem .answer{
+  margin-top: 10px;
+  color: #cfe0ff;
+}
+
+.footer{
+  text-align:center;
+  color: var(--muted);
+  margin-top: 18px;
 }
