@@ -1,3 +1,4 @@
+<!-- client/index.html -->
 <!doctype html>
 <html lang="sv">
 <head>
@@ -8,86 +9,277 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">SB</div>
-    <div>
-      <h1 class="title">Study Buddy</h1>
-      <p class="subtitle">Gör quiz och flashcards direkt från text eller PDF</p>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">SB</div>
+      <div class="sb-brandText">
+        <div class="sb-title">Study Buddy</div>
+        <div class="sb-subtitle">Quiz & flashcards</div>
+      </div>
     </div>
-  </div>
-</header>
 
-<main class="container">
+    <div class="sb-section">
+      <div class="sb-sectionTitle">Workspace</div>
+      <div class="sb-nav">
+        <button class="sb-navBtn is-active" data-tab="uploadTab" id="tabUploadBtn">Upload</button>
+        <button class="sb-navBtn" data-tab="generateTab" id="tabGenerateBtn">Generate</button>
+        <button class="sb-navBtn" data-tab="studyTab" id="tabStudyBtn">Study</button>
+      </div>
+    </div>
 
-  <!-- INPUT -->
-  <section class="card">
-    <h2>Studieunderlag</h2>
+    <div class="sb-section">
+      <div class="sb-sectionTitle">Current set</div>
+      <div class="sb-infoCard">
+        <div class="sb-infoRow">
+          <span class="sb-infoKey">Source</span>
+          <span class="sb-infoVal" id="sourceInfo">—</span>
+        </div>
+        <div class="sb-infoRow">
+          <span class="sb-infoKey">Mode</span>
+          <span class="sb-infoVal" id="modeInfo">—</span>
+        </div>
+        <div class="sb-infoRow">
+          <span class="sb-infoKey">Count</span>
+          <span class="sb-infoVal" id="countInfo">—</span>
+        </div>
+        <div class="sb-infoRow">
+          <span class="sb-infoKey">Status</span>
+          <span class="sb-infoVal" id="statusInfo">Idle</span>
+        </div>
+      </div>
+
+      <button class="sb-secondaryBtn" id="openExportBtn" type="button" disabled>Export / Copy</button>
+      <button class="sb-ghostBtn" id="resetBtn" type="button">Reset</button>
+    </div>
+
+    <div class="sb-footer">
+      <span>Local prototype</span>
+      <span class="dot">•</span>
+      <a class="sb-link" href="http://localhost:3000/api/health" target="_blank" rel="noreferrer">API health</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="pageTitle" id="pageTitle">Upload</h1>
+        <div class="pageHint" id="pageHint">Lägg in text eller ladda upp en PDF.</div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="pill" id="apiPill">API: unknown</div>
+      </div>
+    </header>
+
+    <section class="content">
+
+      <!-- UPLOAD TAB -->
+      <div class="tab is-active" id="uploadTab">
+        <div class="grid2">
+          <div class="card">
+            <div class="cardHeader">
+              <h2>PDF upload</h2>
+              <span class="badge">Drag & drop</span>
+            </div>
+
+            <div class="dropzone" id="dropzone">
+              <input id="pdfInput" type="file" accept=".pdf" hidden />
+              <div class="dzIcon">⬆</div>
+              <div class="dzTitle">Släpp din PDF här</div>
+              <div class="dzText">eller klicka för att välja en fil</div>
+
+              <div class="dzFile" id="dzFile" hidden>
+                <div class="dzFileName" id="pdfName">file.pdf</div>
+                <button class="smallBtn" id="removePdfBtn" type="button">Remove</button>
+              </div>
+            </div>
+
+            <div class="note">
+              PDF måste vara textbaserad för att text ska kunna extraheras automatiskt. (Skannade bild-PDF kräver OCR.)
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <h2>Text input</h2>
+              <span class="badge">Optional</span>
+            </div>
+
+            <label class="label" for="sourceTextInput">Ämne eller material</label>
+            <textarea id="sourceTextInput" class="textarea" placeholder="Ex: 'Svenska fåglar' eller klistra in anteckningar..."></textarea>
+
+            <div class="row">
+              <button class="primaryBtn" id="goGenerateBtn" type="button">Continue → Generate</button>
+              <button class="ghostBtn" id="demoBtn" type="button">Fill demo</button>
+            </div>
+
+            <div class="status" id="uploadStatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERATE TAB -->
+      <div class="tab" id="generateTab">
+        <div class="grid2">
+          <div class="card">
+            <div class="cardHeader">
+              <h2>Generator</h2>
+              <span class="badge">Study Buddy</span>
+            </div>
+
+            <div class="formGrid">
+              <div>
+                <label class="label" for="modeSelect">Create</label>
+                <select id="modeSelect" class="select">
+                  <option value="flashcards" selected>Flashcards</option>
+                  <option value="quiz">Quiz</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="label" for="countSelect">Count</label>
+                <select id="countSelect" class="select">
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="primaryBtn" id="generateBtn" type="button">Generate</button>
+              <button class="ghostBtn" id="goStudyBtn" type="button" disabled>Go to Study</button>
+            </div>
+
+            <div class="status" id="generateStatus"></div>
+
+            <div class="miniPreview">
+              <div class="miniTitle">Current input</div>
+              <div class="miniBox" id="inputPreview">—</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <h2>Result</h2>
+              <span class="badge" id="resultBadge">—</span>
+            </div>
+
+            <div class="resultEmpty" id="resultEmpty">
+              Nothing generated yet.
+            </div>
+
+            <div id="resultFlashcards" hidden>
+              <div class="resultHeaderRow">
+                <div class="mutedSmall" id="flashcardsMeta">—</div>
+                <button class="smallBtn" id="studyFlashcardsBtn" type="button">Study flashcards</button>
+              </div>
+              <div class="flashcardsList" id="flashcardsList"></div>
+            </div>
+
+            <div id="resultQuiz" hidden>
+              <div class="resultHeaderRow">
+                <div class="mutedSmall" id="quizMeta">—</div>
+                <button class="smallBtn" id="studyQuizBtn" type="button">Study quiz</button>
+              </div>
+              <div class="quizList" id="quizListPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDY TAB -->
+      <div class="tab" id="studyTab">
+        <div class="card" id="studyEmpty">
+          <h2>Study</h2>
+          <p class="muted">Generera ett set först, sen kan du studera här.</p>
+        </div>
+
+        <!-- Flashcard viewer -->
+        <div class="card" id="flashStudyCard" hidden>
+          <div class="cardHeader">
+            <h2>Flashcards</h2>
+            <div class="headerBtns">
+              <button class="smallBtn" id="shuffleFlashBtn" type="button">Shuffle</button>
+              <button class="smallBtn" id="restartFlashBtn" type="button">Restart</button>
+            </div>
+          </div>
+
+          <div class="progressRow">
+            <div class="progressText" id="flashProgressText">1/10</div>
+            <div class="progressBar"><div class="progressFill" id="flashProgressFill"></div></div>
+          </div>
+
+          <button class="flashCard" id="flashCardBtn" type="button">
+            <div class="flashSideLabel" id="flashSideLabel">FRAMSIDA</div>
+            <div class="flashMainText" id="flashMainText">—</div>
+            <div class="flashHint">Click to flip</div>
+          </button>
+
+          <div class="row center">
+            <button class="ghostBtn" id="prevFlashBtn" type="button">← Prev</button>
+            <button class="primaryBtn" id="nextFlashBtn" type="button">Next →</button>
+          </div>
+        </div>
+
+        <!-- Quiz runner -->
+        <div class="card" id="quizStudyCard" hidden>
+          <div class="cardHeader">
+            <h2>Quiz</h2>
+            <div class="headerBtns">
+              <button class="smallBtn" id="restartQuizBtn" type="button">Restart</button>
+            </div>
+          </div>
+
+          <div class="progressRow">
+            <div class="progressText" id="quizProgressText">1/10</div>
+            <div class="progressBar"><div class="progressFill" id="quizProgressFill"></div></div>
+          </div>
+
+          <div class="quizRunner">
+            <div class="quizMeta" id="quizRunnerMeta">—</div>
+            <div class="quizQuestion" id="quizRunnerQuestion">—</div>
+
+            <div class="quizOptions" id="quizRunnerOptions"></div>
+
+            <div class="quizAnswerBox" id="quizAnswerBox" hidden>
+              <div><b>Correct answer:</b> <span id="quizCorrectAnswer">—</span></div>
+            </div>
+
+            <div class="row">
+              <button class="ghostBtn" id="checkQuizBtn" type="button">Check</button>
+              <button class="primaryBtn" id="nextQuizBtn" type="button">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal" id="exportModal" hidden>
+  <div class="modalBackdrop" id="exportBackdrop"></div>
+  <div class="modalCard">
+    <div class="modalHeader">
+      <div>
+        <div class="modalTitle">Export / Copy</div>
+        <div class="modalSubtitle">Kopiera som text</div>
+      </div>
+      <button class="iconBtn" id="closeExportBtn" type="button">✕</button>
+    </div>
+
+    <textarea id="exportText" class="textarea modalTextarea" readonly></textarea>
 
     <div class="row">
-      <div>
-        <label for="modeSelect">Skapa</label>
-        <select id="modeSelect">
-          <option value="flashcards" selected>Flashcards</option>
-          <option value="quiz">Quiz</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="countSelect">Antal</label>
-        <select id="countSelect">
-          <option value="5">5</option>
-          <option value="10" selected>10</option>
-          <option value="15">15</option>
-        </select>
-      </div>
+      <button class="primaryBtn" id="copyExportBtn" type="button">Copy</button>
+      <button class="ghostBtn" id="closeExportBtn2" type="button">Close</button>
     </div>
-
-    <label for="sourceTextInput">Text (valfritt)</label>
-    <textarea id="sourceTextInput" placeholder="Klistra in text här om du inte använder PDF..."></textarea>
-
-    <label for="pdfInput">PDF-fil</label>
-    <input id="pdfInput" type="file" accept=".pdf" />
-
-    <div class="actions">
-      <button id="generateBtn" class="primary" type="button">Generera</button>
-      <button id="clearBtn" class="ghost" type="button">Rensa</button>
-    </div>
-
-    <div id="statusBox" class="status"></div>
-  </section>
-
-  <!-- FLASHCARDS -->
-  <section class="card" id="flashcardsCard" hidden>
-    <div class="cardHeader">
-      <h2>Flashcards</h2>
-      <button id="copyFlashcardsBtn" type="button">Kopiera</button>
-    </div>
-
-    <div id="flashcardsGrid" class="grid"></div>
-  </section>
-
-  <!-- QUIZ -->
-  <section class="card" id="quizCard" hidden>
-    <div class="cardHeader">
-      <h2>Quiz</h2>
-      <button id="copyQuizBtn" type="button">Kopiera</button>
-    </div>
-
-    <div id="quizList"></div>
-  </section>
-
-  <!-- EXPORT -->
-  <section class="card" id="exportCard" hidden>
-    <h2>Export</h2>
-    <textarea id="exportText" readonly></textarea>
-  </section>
-
-  <footer class="footer">
-    <small>Study Buddy</small>
-  </footer>
-
-</main>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
